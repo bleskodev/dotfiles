@@ -1,5 +1,5 @@
-set nocompatible		" required
-filetype off			  " required
+set nocompatible    " required
+filetype off        " required
 
 " set runtime path to include Vundle and initialize
 set rtp +=~/.vim/bundle/Vundle.vim
@@ -8,15 +8,15 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'altercation/vim-colors-solarized'	  " color theme
-Plugin 'vim-scripts/LustyExplorer'		      " file explorer
-Plugin 'rking/ag.vim'				                " search plugin
-Plugin 'astashov/vim-ruby-debugger'		      " ruby debugger plugin
-Plugin 'tpope/vim-fugitive'			            " git integration plugin
+Plugin 'altercation/vim-colors-solarized'   " color theme
+Plugin 'vim-scripts/LustyExplorer'          " file explorer
+Plugin 'rking/ag.vim'                       " search plugin
+Plugin 'astashov/vim-ruby-debugger'         " ruby debugger plugin
+Plugin 'tpope/vim-fugitive'                 " git integration plugin
 
 " All plugins must be added before the following line
-call vundle#end() 		    " required
-filetype plugin indent on	" required
+call vundle#end()         " required
+filetype plugin indent on " required
 
 syntax enable
 let g:solarized_termcolors=16
@@ -25,7 +25,7 @@ set background=dark
 "set background=light
 colorscheme solarized
 
-set hidden			" required by LustyExplorer
+set hidden      " required by LustyExplorer
 
 " Search
 set ignorecase
@@ -43,7 +43,7 @@ set wrap
 set laststatus=2    " always display status line
 set statusline=[%n]\ %<%f\ %{fugitive#statusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P\ %a
 
-set scrolloff=3			" display minimum 3 lines around cursor
+set scrolloff=3     " display minimum 3 lines around cursor
 set splitbelow
 
 " redefine leader key

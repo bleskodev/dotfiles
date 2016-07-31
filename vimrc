@@ -1,5 +1,5 @@
-set nocompatible    " required
-filetype off        " required
+set nocompatible    " required by Vundle
+filetype off        " required by Vundle
 
 " set runtime path to include Vundle and initialize
 set rtp +=~/.vim/bundle/Vundle.vim
@@ -13,6 +13,8 @@ Plugin 'vim-scripts/LustyExplorer'          " file explorer
 Plugin 'rking/ag.vim'                       " search plugin
 Plugin 'astashov/vim-ruby-debugger'         " ruby debugger plugin
 Plugin 'tpope/vim-fugitive'                 " git integration plugin
+Plugin 'vim-ruby/vim-ruby'                  " latest vim-ruby plugin
+Plugin 'davidhalter/jedi-vim'               " python completion plugin
 
 " All plugins must be added before the following line
 call vundle#end()         " required
@@ -84,4 +86,9 @@ vmap <C-Down> xp`[V`]
 
 " Spell check
 cmap spc setlocal spell spelllang=
+
+" Completion
+" Ruby
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
 

@@ -109,4 +109,6 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
 " YouCompleteMe
 nnoremap <leader>yg :YcmCompleter GoTo<cr>
 
+" setup :make to DUB for D files
+autocmd FileType d setlocal makeprg=dub\ build
 

@@ -111,4 +111,8 @@ nnoremap <leader>yg :YcmCompleter GoTo<cr>
 
 " setup :make to DUB for D files
 autocmd FileType d setlocal makeprg=dub\ build
-
+autocmd Filetype d setlocal foldmethod=syntax
+" setup :make to qibuild for C files
+autocmd Filetype cpp setlocal makeprg=qibuild\ make
+autocmd Filetype cpp setlocal foldmethod=syntax
+autocmd Filetype c setlocal foldmethod=syntax

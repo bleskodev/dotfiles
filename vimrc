@@ -13,7 +13,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'   " color theme
 Plugin 'vim-scripts/LustyExplorer'          " file explorer
 Plugin 'rking/ag.vim'                       " search plugin
-"Plugin 'astashov/vim-ruby-debugger'         " ruby debugger plugin
 Plugin 'tpope/vim-fugitive'                 " git integration plugin
 Plugin 'vim-ruby/vim-ruby'                  " latest vim-ruby plugin
 Plugin 'davidhalter/jedi-vim'               " python completion plugin
@@ -39,6 +38,11 @@ set ignorecase
 set smartcase
 set incsearch
 set hlsearch
+" Search down into subfolders
+" Provides tab-completion for all file-related tasks
+set path+=**
+" Display all matching files when we tab complete
+set wildmenu
 
 " Display
 set title
@@ -111,8 +115,12 @@ nnoremap <leader>yg :YcmCompleter GoTo<cr>
 
 " setup :make to DUB for D files
 autocmd FileType d setlocal makeprg=dub\ build
-autocmd Filetype d setlocal foldmethod=syntax
+autocmd FileType d setlocal foldmethod=syntax
+autocmd FileType d setlocal efm=%*[^@]@%f\(%l\):\ %m,%f\(%l\\,%c\):\ %m,%f\(%l\):\ %m
 " setup :make to qibuild for C files
-autocmd Filetype cpp setlocal makeprg=qibuild\ make
-autocmd Filetype cpp setlocal foldmethod=syntax
-autocmd Filetype c setlocal foldmethod=syntax
+autocmd FileType cpp setlocal makeprg=qibuild\ make
+autocmd FileType cpp setlocal foldmethod=syntax
+autocmd FileType c setlocal foldmethod=syntax
+
+" map Space to toggle folding
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>

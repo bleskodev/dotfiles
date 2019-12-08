@@ -14,11 +14,16 @@ Plugin 'altercation/vim-colors-solarized'   " color theme
 Plugin 'vim-scripts/LustyExplorer'          " file explorer
 Plugin 'rking/ag.vim'                       " search plugin
 Plugin 'tpope/vim-fugitive'                 " git integration plugin
+Plugin 'tpope/vim-dispatch'                 " make helper plugin
 Plugin 'vim-ruby/vim-ruby'                  " latest vim-ruby plugin
 Plugin 'davidhalter/jedi-vim'               " python completion plugin
 Plugin 'vim-scripts/a.vim'                  " switch .h <-> .c plugin
 Plugin 'Valloric/YouCompleteMe'             " c++ completion plugin
 Plugin 'idanarye/vim-dutyl'                 " d completion and tools
+Plugin 'sirtaj/vim-openscad'                " open-scad syntax plugin
+Plugin 'christoomey/vim-tmux-navigator'     " Seamless navigation between tmux panes and vim splits
+Plugin 'tmux-plugins/vim-tmux'              " Syntax highlighting for tmux.conf
+Plugin 'benmills/vimux'                     " Easily interact with tmux from vim
 
 " All plugins must be added before the following line
 call vundle#end()         " required
@@ -27,8 +32,8 @@ filetype plugin indent on " required
 syntax enable
 let g:solarized_termcolors=16
 set t_Co=256
-set background=dark
-"set background=light
+"set background=dark
+set background=light
 colorscheme solarized
 
 set hidden      " required by LustyExplorer
@@ -38,11 +43,6 @@ set ignorecase
 set smartcase
 set incsearch
 set hlsearch
-" Search down into subfolders
-" Provides tab-completion for all file-related tasks
-set path+=**
-" Display all matching files when we tab complete
-set wildmenu
 
 " Display
 set title
@@ -55,7 +55,16 @@ set laststatus=2    " always display status line
 set statusline=[%n]\ %<%f\ %{fugitive#statusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P\ %a
 
 set scrolloff=3     " display minimum 3 lines around cursor
+
+" Splits
+" easier split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" more natural split opening
 set splitbelow
+set splitright
 
 " redefine leader key
 let mapleader=','
@@ -80,9 +89,9 @@ inoremap <right> <nop>
 " tabs to spaces
 set expandtab
 " tabs 2 characters
-set tabstop=2
+set tabstop=4
 " indentation 2 characters
-set shiftwidth=2
+set shiftwidth=4
 " C/C++ indentation
 set cinoptions+=f0
 " D indentation (leave by default, dont let dutyl do it)
@@ -114,13 +123,18 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
 nnoremap <leader>yg :YcmCompleter GoTo<cr>
 
 " setup :make to DUB for D files
-autocmd FileType d setlocal makeprg=dub\ build
 autocmd FileType d setlocal foldmethod=syntax
-autocmd FileType d setlocal efm=%*[^@]@%f\(%l\):\ %m,%f\(%l\\,%c\):\ %m,%f\(%l\):\ %m
-" setup :make to qibuild for C files
-autocmd FileType cpp setlocal makeprg=qibuild\ make
-autocmd FileType cpp setlocal foldmethod=syntax
-autocmd FileType c setlocal foldmethod=syntax
+autocmd FileType d execute "compiler dub"
+nnoremap <Leader>db :Make build<CR>
+nnoremap <Leader>dt :Make test<CR>
 
-" map Space to toggle folding
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+" setup :make to qibuild for C files
+autocmd Filetype cpp setlocal makeprg=qibuild\ make
+autocmd Filetype cpp setlocal foldmethod=syntax
+autocmd Filetype c setlocal foldmethod=syntax
+
+" vimux shortcuts
+nnoremap <Leader>vp :VixmuxProptCommand<CR>
+nnoremap <Leader>vl :VixmuxRunLadCommand<CR>
+nnoremap <Leader>vi :VimuxInspectRunner<CR>
+nnoremap <Leader>vz :VimuxZoomRunner<CR>

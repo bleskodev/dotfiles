@@ -124,9 +124,9 @@ nnoremap <leader>yg :YcmCompleter GoTo<cr>
 
 " setup :make to DUB for D files
 autocmd FileType d setlocal foldmethod=syntax
-autocmd FileType d execute "compiler dub"
-nnoremap <Leader>db :Make build<CR>
-nnoremap <Leader>dt :Make test<CR>
+autocmd FileType d compiler dub
+nnoremap <Leader>mb :Make build<CR>
+nnoremap <Leader>mt :Make test<CR>
 
 " setup :make to qibuild for C files
 autocmd Filetype cpp setlocal makeprg=qibuild\ make
@@ -138,3 +138,20 @@ nnoremap <Leader>vp :VixmuxProptCommand<CR>
 nnoremap <Leader>vl :VixmuxRunLadCommand<CR>
 nnoremap <Leader>vi :VimuxInspectRunner<CR>
 nnoremap <Leader>vz :VimuxZoomRunner<CR>
+
+" Termdebug configuration
+packadd termdebug
+nnoremap <Leader>dd :Termdebug
+nnoremap <Leader>dr :Run<CR>
+
+nnoremap <Leader>dn :Over<CR>
+nnoremap <Leader>ds :Step<CR>
+nnoremap <Leader>df :Finish<CR>
+nnoremap <Leader>dc :Continue<CR>
+
+nnoremap <Leader>db :Break<CR>
+nnoremap <Leader>dx :Clear<CR>
+
+nnoremap <Leader>de :Evaluate
+nnoremap <Leader>dg :Gdb<CR>
+

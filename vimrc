@@ -71,10 +71,10 @@ let mapleader=','
 
 " configuration for Ag plugin
 " place a marker and search
-nnoremap <leader>j mA:Ag<space>
+nnoremap <Leader>j mA:Ag<space>
 " place a marker and search the word under cursor
-nnoremap <leader>ja mA:Ag "<C-r>=expand("<cword>")<cr>"
-nnoremap <leader>jA mA:Ag "<C-r>=expand("<cWORD>")<cr>"
+nnoremap <Leader>ja mA:Ag "<C-r>=expand("<cword>")<cr>"
+nnoremap <Leader>jA mA:Ag "<C-r>=expand("<cWORD>")<cr>"
 
 " deactivate arrow keys
 noremap <up> <nop>
@@ -93,9 +93,7 @@ set tabstop=4
 " indentation 2 characters
 set shiftwidth=4
 " C/C++ indentation
-set cinoptions+=f0
-" D indentation (leave by default, dont let dutyl do it)
-let g:dutyl_dontHandleIndent = 1
+"set cinoptions+=f0
 
 " A few keybindings
 "
@@ -106,8 +104,8 @@ nnoremap <C-Down> ddp
 vnoremap <C-Up> xkP`[V`]
 vnoremap <C-Down> xp`[V`]
 " insert blank line without entering insert mode
-nnoremap <leader>o o<ESC>
-nnoremap <leader>O O<ESC>
+nnoremap <Leader>o o<ESC>
+nnoremap <Leader>O O<ESC>
 " more convenient <esc> in insert mode
 inoremap jk <ESC>
 
@@ -120,13 +118,18 @@ autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
 
 " YouCompleteMe
-nnoremap <leader>yg :YcmCompleter GoTo<cr>
+autocmd Filetype cpp nnoremap <buffer> <Leader>g :YcmCompleter GoTo<cr>
+autocmd Filetype c nnoremap <buffer> <Leader>g :YcmCompleter GoTo<cr>
 
 " setup :make to DUB for D files
 autocmd FileType d setlocal foldmethod=syntax
 autocmd FileType d compiler dub
-nnoremap <Leader>mb :Make build<CR>
-nnoremap <Leader>mt :Make test<CR>
+autocmd FileType d nnoremap <buffer> <Leader>mb :Make build<CR>
+autocmd FileType d nnoremap <buffer> <Leader>mt :Make test<CR>
+"dutyl setup
+let g:dutyl_stdImportPaths=['/usr/include/dlang/dmd']
+let g:dutyl_dontHandleIndent = 1 " D indentation (leave by default, dont let dutyl do it)
+autocmd Filetype d nnoremap <buffer> <Leader>g :DUjump<cr>
 
 " setup :make to qibuild for C files
 autocmd Filetype cpp setlocal makeprg=qibuild\ make
@@ -141,6 +144,7 @@ nnoremap <Leader>vz :VimuxZoomRunner<CR>
 
 " Termdebug configuration
 packadd termdebug
+
 nnoremap <Leader>dd :Termdebug
 nnoremap <Leader>dr :Run<CR>
 

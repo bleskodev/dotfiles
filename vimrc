@@ -11,7 +11,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'altercation/vim-colors-solarized'   " color theme
-Plugin 'vim-scripts/LustyExplorer'          " file explorer
+Plugin 'sjbach/lusty'                       " file explorer
 Plugin 'rking/ag.vim'                       " search plugin
 Plugin 'tpope/vim-fugitive'                 " git integration plugin
 Plugin 'tpope/vim-dispatch'                 " make helper plugin

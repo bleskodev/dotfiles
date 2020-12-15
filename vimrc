@@ -136,6 +136,13 @@ autocmd Filetype cpp setlocal makeprg=qibuild\ make
 autocmd Filetype cpp setlocal foldmethod=syntax
 autocmd Filetype c setlocal foldmethod=syntax
 
+" clang-format
+if has('python')
+    map <Leader>f :pyf /usr/share/clang/clang-format.py<cr>
+elseif has('python3')
+    map <Leader>f :py3f /usr/share/clang/clang-format.py<cr>
+endif
+
 " vimux shortcuts
 nnoremap <Leader>vp :VixmuxProptCommand<CR>
 nnoremap <Leader>vl :VixmuxRunLadCommand<CR>

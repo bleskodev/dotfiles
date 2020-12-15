@@ -1,0 +1,41 @@
+BasedOnStyle: WebKit
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlines: Left
+AlignOperands: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: InlineOnly
+AlwaysBreakTemplateDeclarations: true
+BinPackArguments: false
+BinPackParameters: false
+BraceWrapping:
+    AfterCaseLabel: true
+    AfterClass: true
+    AfterControlStatement: true
+    AfterEnum: true
+    AfterExternBlock: true
+    AfterFunction: true
+    AfterNamespace: false
+    AfterStruct: true
+    AfterUnion: true
+    BeforeElse: true
+    IndentBraces: false
+    SplitEmptyFunction: false
+    SplitEmptyNamespace: false
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Custom
+ColumnLimit: 100
+CompactNamespaces: false
+FixNamespaceComments: true
+
+IncludeBlocks: Regroup
+
+NamespaceIndentation: None
+PenaltyBreakAssignment: 200
+PenaltyBreakBeforeFirstCallParameter: 500
+PenaltyReturnTypeOnItsOwnLine: 1000
+SpaceInEmptyBlock: false
+Standard: c++17
+UseTab: Never
+

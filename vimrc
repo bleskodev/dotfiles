@@ -24,6 +24,7 @@ Plugin 'sirtaj/vim-openscad'                " open-scad syntax plugin
 Plugin 'christoomey/vim-tmux-navigator'     " Seamless navigation between tmux panes and vim splits
 Plugin 'tmux-plugins/vim-tmux'              " Syntax highlighting for tmux.conf
 Plugin 'benmills/vimux'                     " Easily interact with tmux from vim
+Plugin 'preservim/nerdtree'                 " another file explorer
 
 " All plugins must be added before the following line
 call vundle#end()         " required
@@ -137,11 +138,8 @@ autocmd Filetype cpp setlocal foldmethod=syntax
 autocmd Filetype c setlocal foldmethod=syntax
 
 " clang-format
-if has('python')
-    map <Leader>f :pyf /usr/share/clang/clang-format.py<cr>
-elseif has('python3')
-    map <Leader>f :py3f /usr/share/clang/clang-format.py<cr>
-endif
+autocmd Filetype cpp map <buffer> <Leader>f :py3f /usr/share/clang/clang-format.py<cr>
+autocmd Filetype c map <buffer> <Leader>f :py3f /usr/share/clang/clang-format.py<cr>
 
 " vimux shortcuts
 nnoremap <Leader>vp :VixmuxProptCommand<CR>

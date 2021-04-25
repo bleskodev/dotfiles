@@ -177,11 +177,9 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-" folding (vim-lsp)
-set foldmethod=expr
-  \ foldexpr=lsp#ui#vim#folding#foldexpr()
-  \ foldtext=lsp#ui#vim#folding#foldtext()
+" folding
 set nofoldenable    " no folding when document is opened
+set foldmethod=syntax
 
 " Default 'Yellow' color does not work with Solarized ??? (vim-lsp-cxx-higlight)
 hi LspCxxHlGroupNamespace ctermfg=Magenta guifg=#3D3D00 cterm=none gui=none
@@ -202,7 +200,6 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 autocmd FileType d compiler dub
 autocmd FileType d nnoremap <buffer> <Leader>mb :Make build<CR>
 autocmd FileType d nnoremap <buffer> <Leader>mt :Make test<CR>
-autocmd FileType d setlocal foldmethod=syntax  "folding via lsp does not work for d
 
 " setup :make to qibuild for C files
 autocmd Filetype cpp setlocal makeprg=qibuild\ make

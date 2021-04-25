@@ -10,21 +10,21 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'altercation/vim-colors-solarized'   " color theme
-Plugin 'sjbach/lusty'                       " file explorer
-Plugin 'rking/ag.vim'                       " search plugin
-Plugin 'tpope/vim-fugitive'                 " git integration plugin
-Plugin 'tpope/vim-dispatch'                 " make helper plugin
-Plugin 'vim-ruby/vim-ruby'                  " latest vim-ruby plugin
-Plugin 'davidhalter/jedi-vim'               " python completion plugin
-Plugin 'vim-scripts/a.vim'                  " switch .h <-> .c plugin
-Plugin 'Valloric/YouCompleteMe'             " c++ completion plugin
-Plugin 'idanarye/vim-dutyl'                 " d completion and tools
-Plugin 'sirtaj/vim-openscad'                " open-scad syntax plugin
-Plugin 'christoomey/vim-tmux-navigator'     " Seamless navigation between tmux panes and vim splits
-Plugin 'tmux-plugins/vim-tmux'              " Syntax highlighting for tmux.conf
-Plugin 'benmills/vimux'                     " Easily interact with tmux from vim
-Plugin 'preservim/nerdtree'                 " another file explorer
+Plugin 'altercation/vim-colors-solarized'       " color theme
+Plugin 'rking/ag.vim'                           " search plugin
+Plugin 'tpope/vim-fugitive'                     " git integration plugin
+Plugin 'tpope/vim-dispatch'                     " make helper plugin
+Plugin 'vim-scripts/a.vim'                      " switch .h <-> .c plugin
+Plugin 'sirtaj/vim-openscad'                    " open-scad syntax plugin
+Plugin 'christoomey/vim-tmux-navigator'         " Seamless navigation between tmux panes and vim splits
+Plugin 'tmux-plugins/vim-tmux'                  " Syntax highlighting for tmux.conf
+Plugin 'benmills/vimux'                         " Easily interact with tmux from vim
+Plugin 'preservim/nerdtree'                     " file explorer
+Plugin 'prabirshrestha/vim-lsp'                 " LSP language server protocol
+Plugin 'prabirshrestha/asyncomplete.vim'        " completion plugin
+Plugin 'prabirshrestha/asyncomplete-lsp.vim'    " completion plugin (connection to LSP)
+Plugin 'jackguo380/vim-lsp-cxx-highlight'       " C++ syntax highlighting
+Plugin 'm-pilia/vim-ccls'                       " CCLS (LSP) plugin (expose LSP CCLS lsp extensions)
 
 " All plugins must be added before the following line
 call vundle#end()         " required
@@ -36,8 +36,6 @@ set t_Co=256
 "set background=dark
 set background=light
 colorscheme solarized
-
-set hidden      " required by LustyExplorer
 
 " Search
 set ignorecase
@@ -77,24 +75,12 @@ nnoremap <Leader>j mA:Ag<space>
 nnoremap <Leader>ja mA:Ag "<C-r>=expand("<cword>")<cr>"
 nnoremap <Leader>jA mA:Ag "<C-r>=expand("<cWORD>")<cr>"
 
-" deactivate arrow keys
-noremap <up> <nop>
-noremap <down> <nop>
-noremap <left> <nop>
-noremap <right> <nop> 
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop> 
-
 " tabs to spaces
 set expandtab
-" tabs 2 characters
+" tabs 4 characters
 set tabstop=4
-" indentation 2 characters
+" indentation 4 characters
 set shiftwidth=4
-" C/C++ indentation
-"set cinoptions+=f0
 
 " A few keybindings
 "
@@ -114,32 +100,112 @@ inoremap jk <ESC>
 cmap spc setlocal spell spelllang=
 
 " Completion
-" Ruby
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
+" Language servers (vim-lsp)
+" CCLS (C++)
+if executable('ccls')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'ccls',
+    \ 'cmd': {server_info->['ccls']},
+    \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+    \ 'initialization_options': {
+    \   'cache': {'directory': '/tmp/ccls/cache'},
+    \   'highlight': { 'lsRanges' : v:true },
+    \ },
+    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+    \ })
+endif
 
-" YouCompleteMe
-autocmd Filetype cpp nnoremap <buffer> <Leader>g :YcmCompleter GoTo<cr>
-autocmd Filetype c nnoremap <buffer> <Leader>g :YcmCompleter GoTo<cr>
+" PYLS (python-language-server)
+if executable('pyls')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'pyls',
+    \ 'cmd': {server_info->['pyls']},
+    \ 'allowlist': ['python'],
+    \ })
+endif
+
+" Solargraph (Ruby)
+if executable('solargraph')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'solargraph',
+    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+    \ 'allowlist': ['ruby'],
+    \ })
+endif
+
+" serve-d (Dlang)
+if executable('serve-d')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'serve-d',
+    \ 'cmd': {server_info->['serve-d']},
+    \ 'allowlist': ['d'],
+    \ })
+endif
+
+" LSP server debug
+"let g:lsp_log_verbose = 1
+"let g:lsp_log_file = '/tmp/vim-lsp/vim-lsp.log'
+
+" Code navigation (vim-lsp)
+function! s:on_lsp_buffer_enabled() abort
+  setlocal signcolumn=yes
+  if exists('+tagfunc')
+    setlocal tagfunc=lsp#tagfunc
+  endif
+
+  nmap <buffer> <Leader>ld  <plug>(lsp-definition)
+  nmap <buffer> <Leader>lr  <plug>(lsp-references)
+  nmap <buffer> <Leader>li  <plug>(lsp-implementation)
+  nmap <buffer> <Leader>lt  <plug>(lsp-type-definition)
+  nmap <buffer> <Leader>ls  :LspDocumentSymbol
+  nmap <buffer> <Leader>lS  :LspWorkspaceSymbol <C-r>=expand("<cword>")<cr>
+  nmap <buffer> <Leader>rn  <plug>(lsp-rename)
+  nmap <buffer> <Leader>lp  <plug>(lsp-previous-diagnostic)
+  nmap <buffer> <Leader>ln  <plug>(lsp-next-diagnostic)
+  nmap <buffer> <Leader>lep <plug>(lsp-previous-error)
+  nmap <buffer> <Leader>len <plug>(lsp-next-error)
+  nmap <buffer> <Leader>lf  <plug>(lsp-document-format)
+  nmap <buffer> K <plug>(lsp-hover)
+
+  "let g:lsp_format_sync_timeout = 1000
+  "autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" folding (vim-lsp)
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
+set nofoldenable    " no folding when document is opened
+
+" Default 'Yellow' color does not work with Solarized ??? (vim-lsp-cxx-higlight)
+hi LspCxxHlGroupNamespace ctermfg=Magenta guifg=#3D3D00 cterm=none gui=none
+
+" Syntax highlighting (C++) (vim-lsp-cxx-highlight)
+if (&background == 'light')
+  let g:lsp_cxx_hl_light_bg=1       " use colors for light background
+endif
+let g:lsp_cxx_hl_use_text_props=1   " use textprops
+
+" Tab completion (asyncomplete.vim)
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
 
 " setup :make to DUB for D files
-autocmd FileType d setlocal foldmethod=syntax
 autocmd FileType d compiler dub
 autocmd FileType d nnoremap <buffer> <Leader>mb :Make build<CR>
 autocmd FileType d nnoremap <buffer> <Leader>mt :Make test<CR>
-"dutyl setup
-let g:dutyl_stdImportPaths=['/usr/include/dlang/dmd']
-let g:dutyl_dontHandleIndent = 1 " D indentation (leave by default, dont let dutyl do it)
-autocmd Filetype d nnoremap <buffer> <Leader>g :DUjump<cr>
+autocmd FileType d setlocal foldmethod=syntax  "folding via lsp does not work for d
 
 " setup :make to qibuild for C files
 autocmd Filetype cpp setlocal makeprg=qibuild\ make
-autocmd Filetype cpp setlocal foldmethod=syntax
-autocmd Filetype c setlocal foldmethod=syntax
-
-" clang-format
-autocmd Filetype cpp map <buffer> <Leader>f :py3f /usr/share/clang/clang-format.py<cr>
-autocmd Filetype c map <buffer> <Leader>f :py3f /usr/share/clang/clang-format.py<cr>
 
 " vimux shortcuts
 nnoremap <Leader>vp :VixmuxProptCommand<CR>

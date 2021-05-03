@@ -30,6 +30,8 @@ Plugin 'm-pilia/vim-ccls'                       " CCLS (LSP) plugin (expose LSP 
 call vundle#end()         " required
 filetype plugin indent on " required
 
+set hidden      " modified buffers are not abandoned but hidden
+
 syntax enable
 let g:solarized_termcolors=16
 set t_Co=256
@@ -106,7 +108,7 @@ if executable('ccls')
   au User lsp_setup call lsp#register_server({
     \ 'name': 'ccls',
     \ 'cmd': {server_info->['ccls']},
-    \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+    \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.lsp.workspace'))},
     \ 'initialization_options': {
     \   'cache': {'directory': '/tmp/ccls/cache'},
     \   'highlight': { 'lsRanges' : v:true },
@@ -213,7 +215,7 @@ nnoremap <Leader>vz :VimuxZoomRunner<CR>
 " Termdebug configuration
 packadd termdebug
 
-nnoremap <Leader>dd :Termdebug
+nnoremap <Leader>dd :StartDebugger
 nnoremap <Leader>dr :Run<CR>
 
 nnoremap <Leader>dn :Over<CR>

@@ -11,9 +11,11 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'altercation/vim-colors-solarized'       " color theme
-Plugin 'rking/ag.vim'                           " search plugin
+Plugin 'junegunn/fzf.vim'                       " fuzzy search plugin
+Plugin 'mileszs/ack.vim'                        " ack/ag search plugin
 Plugin 'tpope/vim-fugitive'                     " git integration plugin
 Plugin 'tpope/vim-dispatch'                     " make helper plugin
+Plugin 'tomtom/tcomment_vim'                    " comment plugin
 Plugin 'vim-scripts/a.vim'                      " switch .h <-> .c plugin
 Plugin 'sirtaj/vim-openscad'                    " open-scad syntax plugin
 Plugin 'christoomey/vim-tmux-navigator'         " Seamless navigation between tmux panes and vim splits
@@ -38,6 +40,9 @@ set t_Co=256
 "set background=dark
 set background=light
 colorscheme solarized
+
+set guifont=Ubuntu\ Mono\ 14
+set guioptions-=T " remove toolbar in gVim
 
 " Search
 set ignorecase
@@ -70,12 +75,16 @@ set splitright
 " redefine leader key
 let mapleader=','
 
-" configuration for Ag plugin
-" place a marker and search
-nnoremap <Leader>j mA:Ag<space>
+" configuration for fzf plugin
+let g:fzf_layout = { 'down': '40%' }
+nnoremap <C-P> :Files<cr>
+nnoremap <C-F> :Ag<cr>
+" configuration for ack plugin
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
 " place a marker and search the word under cursor
-nnoremap <Leader>ja mA:Ag "<C-r>=expand("<cword>")<cr>"
-nnoremap <Leader>jA mA:Ag "<C-r>=expand("<cWORD>")<cr>"
+nnoremap <Leader>f :Ack <C-r>=expand("<cword>")<cr>
 
 " tabs to spaces
 set expandtab
@@ -97,6 +106,13 @@ nnoremap <Leader>o o<ESC>
 nnoremap <Leader>O O<ESC>
 " more convenient <esc> in insert mode
 inoremap jk <ESC>
+" Tooggle NERDTree on/off
+nnoremap <Leader>n :NERDTreeToggle<cr>
+" buffer navigation
+nnoremap <Leader>k :bp<cr>
+nnoremap <Leader>j :bn<cr>
+nnoremap <Leader>b :Buffers<cr>
+
 
 " Spell check
 cmap spc setlocal spell spelllang=

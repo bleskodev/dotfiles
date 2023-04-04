@@ -79,6 +79,8 @@ telescope.setup({
 	-- },
 })
 
+telescope.load_extension("file_browser")
+
 -- keymaps
 local keymap = vim.api.nvim_set_keymap
 

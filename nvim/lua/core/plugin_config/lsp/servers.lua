@@ -1,6 +1,8 @@
 local servers = {
     "lua_ls",
     "solargraph",
+    "rust_analyzer",
+    "pylsp",
 }
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")

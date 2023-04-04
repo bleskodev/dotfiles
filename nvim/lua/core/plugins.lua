@@ -80,6 +80,10 @@ return packer.startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
     }
+    -- debugging
+    use "mfussenegger/nvim-dap"
+    use "mfussenegger/nvim-dap-python"
+    use "rcarriga/nvim-dap-ui"
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

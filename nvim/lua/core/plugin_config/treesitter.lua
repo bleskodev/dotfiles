@@ -5,7 +5,7 @@ end
 
 configs.setup {
     ensure_installed =
-        { "c", "cmake", "cpp", "dot", "json", "lua", "python", "ruby", "vim", "yaml" },
+        { "c", "cmake", "cpp", "dot", "json", "lua", "python", "ruby", "rust", "vim", "yaml" },
     sync_install = false,
     ignore_install = { "" },
     autopairs = {

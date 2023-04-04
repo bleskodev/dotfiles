@@ -5,7 +5,7 @@ M.setup = function()
 	if not dap_py_status_ok then
 		return
 	end
-    dap_py.setup("/usr/bin/python")
+    dap_py.setup("python")
 end
 
 return M

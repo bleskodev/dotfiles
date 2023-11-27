@@ -80,6 +80,7 @@ telescope.setup({
 })
 
 telescope.load_extension("file_browser")
+telescope.load_extension("live_grep_args")
 
 -- keymaps
 local keymap = vim.api.nvim_set_keymap
@@ -89,7 +90,7 @@ local function get_keymap_options(desc)
 end
 
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", get_keymap_options("[F]ind [f]iles"))
-keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", get_keymap_options("[F]ind by [G]rep"))
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep_args<CR>", get_keymap_options("[F]ind by [G]rep"))
 keymap("n", "<leader>fw", "<cmd>Telescope grep_string<CR>", get_keymap_options("[F]ind [W]ord under cursor"))
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", get_keymap_options("[F]ind in [H]elp"))
 keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", get_keymap_options("[F]ind in [O]ld files"))

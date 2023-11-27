@@ -39,14 +39,15 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
     -- My plugins here
-    use "wbthomason/packer.nvim"      -- Have packer manage itself
-    use "nvim-tree/nvim-tree.lua"     -- file explorer
-    use "nvim-tree/nvim-web-devicons" -- file icons
-    use "windwp/nvim-autopairs"       -- closes parenthesis automatically
-    use "nvim-lualine/lualine.nvim"   -- status line
-    use "numToStr/Comment.nvim"       -- comment plugin
-    use "akinsho/bufferline.nvim"     -- tab-like buffer display at the top
-    use "folke/which-key.nvim"        -- show popup with keybindings
+    use "wbthomason/packer.nvim"            -- Have packer manage itself
+    use "nvim-tree/nvim-tree.lua"           -- file explorer
+    use "nvim-tree/nvim-web-devicons"       -- file icons
+    use "windwp/nvim-autopairs"             -- closes parenthesis automatically
+    use "nvim-lualine/lualine.nvim"         -- status line
+    use "numToStr/Comment.nvim"             -- comment plugin
+    use "akinsho/bufferline.nvim"           -- tab-like buffer display at the top
+    use "folke/which-key.nvim"              -- show popup with keybindings
+    use "alexghergh/nvim-tmux-navigation"   -- integration with tmux
 
     -- Colorscheme
     use "ellisonleao/gruvbox.nvim"
@@ -76,6 +77,7 @@ return packer.startup(function(use)
         requires = { "nvim-lua/plenary.nvim" }
     }
     use "nvim-telescope/telescope-file-browser.nvim"
+    use "nvim-telescope/telescope-live-grep-args.nvim"
 
     -- treesitter
     use {
